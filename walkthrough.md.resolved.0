@@ -1,0 +1,22 @@
+# Calculator App Walkthrough
+
+I have successfully created a modern calculator application in the [cal](file:///c:/Users/muzbo/.gemini/antigravity/brain/68ac1636-31db-44d8-806e-b89e546d9213/cal/script.js#38-69) folder.
+
+## Changes Made
+- **[NEW] [index.html](file:///c:/Users/muzbo/.gemini/antigravity/brain/68ac1636-31db-44d8-806e-b89e546d9213/cal/index.html)**: The main structure of the calculator.
+- **[NEW] [style.css](file:///c:/Users/muzbo/.gemini/antigravity/brain/68ac1636-31db-44d8-806e-b89e546d9213/cal/style.css)**: Premium dark glassmorphism styling.
+- **[NEW] [script.js](file:///c:/Users/muzbo/.gemini/antigravity/brain/68ac1636-31db-44d8-806e-b89e546d9213/cal/script.js)**: Logic for arithmetic operations.
+
+## How to Run
+1. Navigate to the [cal](file:///c:/Users/muzbo/.gemini/antigravity/brain/68ac1636-31db-44d8-806e-b89e546d9213/cal/script.js#38-69) folder: [cal](file:///c:/Users/muzbo/.gemini/antigravity/brain/68ac1636-31db-44d8-806e-b89e546d9213/cal)
+2. Open [index.html](file:///c:/Users/muzbo/.gemini/antigravity/brain/68ac1636-31db-44d8-806e-b89e546d9213/cal/index.html) in your web browser.
+
+## Features
+- Basic arithmetic (+, -, *, /)
+- Clear (AC) and Delete (DEL) functions
+- Responsive design
+- Keyboard input support (via clicking buttons)
+
+## Verification Results
+- All files are present in the directory.
+- Code structure follows the implementation plan.
