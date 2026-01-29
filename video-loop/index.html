@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seamless Loop Video Creator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Seamless Loop Video</h1>
+            <p class="subtitle">영상을 분석하여 완벽하게 이어지는 루프 영상을 만들어보세요</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section" id="uploadSection">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <h2>영상 업로드</h2>
+                    <p>클릭하거나 파일을 드래그하여 업로드하세요</p>
+                    <p class="file-info">MP4, WebM, MOV 지원 (최대 100MB)</p>
+                    <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime" hidden>
+                </div>
+            </section>
+
+            <!-- Preview Section -->
+            <section class="preview-section hidden" id="previewSection">
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <h3>원본 영상</h3>
+                        <video id="originalVideo" controls></video>
+                    </div>
+                    <div class="video-wrapper">
+                        <h3>루프 미리보기</h3>
+                        <video id="loopPreview" loop muted></video>
+                    </div>
+                </div>
+
+                <div class="video-info" id="videoInfo">
+                    <div class="info-item">
+                        <span class="label">파일명</span>
+                        <span class="value" id="fileName">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">길이</span>
+                        <span class="value" id="videoDuration">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">해상도</span>
+                        <span class="value" id="videoResolution">-</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analysis Section -->
+            <section class="analysis-section hidden" id="analysisSection">
+                <h3>루프 구간 분석</h3>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">분석 준비 중...</p>
+                </div>
+
+                <div class="analysis-result hidden" id="analysisResult">
+                    <div class="result-card">
+                        <h4>최적 루프 구간</h4>
+                        <div class="loop-info">
+                            <div class="time-range">
+                                <span class="start-time" id="loopStart">0:00</span>
+                                <span class="arrow">→</span>
+                                <span class="end-time" id="loopEnd">0:00</span>
+                            </div>
+                            <div class="match-score">
+                                <span class="label">일치도</span>
+                                <span class="score" id="matchScore">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-container">
+                        <h4>프레임 유사도 타임라인</h4>
+                        <canvas id="timelineCanvas" width="800" height="100"></canvas>
+                        <div class="timeline-markers">
+                            <span id="timelineStart">0:00</span>
+                            <span id="timelineEnd">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="manual-adjust">
+                        <h4>수동 조정</h4>
+                        <div class="slider-group">
+                            <label for="startSlider">시작점</label>
+                            <input type="range" id="startSlider" min="0" max="100" value="0">
+                            <span id="startValue">0:00</span>
+                        </div>
+                        <div class="slider-group">
+                            <label for="endSlider">종료점</label>
+                            <input type="range" id="endSlider" min="0" max="100" value="100">
+                            <span id="endValue">0:00</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="action-section hidden" id="actionSection">
+                <button class="btn btn-secondary" id="analyzeBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    분석 시작
+                </button>
+                <button class="btn btn-primary hidden" id="createLoopBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 2l4 4-4 4"/>
+                        <path d="M3 11v-1a4 4 0 0 1 4-4h14"/>
+                        <path d="M7 22l-4-4 4-4"/>
+                        <path d="M21 13v1a4 4 0 0 1-4 4H3"/>
+                    </svg>
+                    루프 영상 생성
+                </button>
+                <button class="btn btn-success hidden" id="downloadBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    다운로드
+                </button>
+                <button class="btn btn-outline" id="resetBtn">
+                    새 영상 선택
+                </button>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>모든 처리는 브라우저에서 로컬로 진행됩니다. 영상이 서버로 전송되지 않습니다.</p>
+        </footer>
+    </div>
+
+    <!-- Hidden canvas for frame extraction -->
+    <canvas id="frameCanvas" style="display: none;"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
